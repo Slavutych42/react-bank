@@ -11,7 +11,7 @@ const AuthRoute: React.FC<AuthRouteProps> = ({ children }) => {
   const { token } = state;
 
   if (token) {
-    return <Navigate to="/balance" replace />;
+    return <Navigate to="/balance-page" replace />;
   }
 
   return <>{children}</>;

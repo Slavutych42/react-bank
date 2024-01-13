@@ -33,7 +33,7 @@ function App() {
             }
           />
           <Route
-            path="/signup"
+            path="/signup-page"
             element={
               <AuthRoute>
                 <SignupPage />
@@ -41,7 +41,7 @@ function App() {
             }
           />
           <Route
-            path="/signup-confirm"
+            path="/signup-confirm-page"
             element={
               <PrivateRoute>
                 <SignupConfirmPage />
@@ -49,7 +49,7 @@ function App() {
             }
           />
           <Route
-            path="/signin"
+            path="/signin-page"
             element={
               <AuthRoute>
                 <SigninPage />
@@ -57,7 +57,7 @@ function App() {
             }
           />
           <Route
-            path="/recovery"
+            path="/recovery-page"
             element={
               <AuthRoute>
                 <RecoveryPage />
@@ -65,7 +65,7 @@ function App() {
             }
           />
           <Route
-            path="/recovery-confirm"
+            path="/recovery-confirm-page"
             element={
               <AuthRoute>
                 <RecoveryConfirmPage />
@@ -73,7 +73,7 @@ function App() {
             }
           />
           <Route
-            path="/balance"
+            path="/balance-page"
             element={
               <PrivateRoute>
                 <BalancePage />
@@ -81,7 +81,7 @@ function App() {
             }
           />
           <Route
-            path="/notifications"
+            path="/notifications-page"
             element={
               <PrivateRoute>
                 <NotificationsPage />
@@ -89,7 +89,7 @@ function App() {
             }
           />
           <Route
-            path="/settings"
+            path="/settings-page"
             element={
               <PrivateRoute>
                 <SettingsPage />
@@ -97,7 +97,7 @@ function App() {
             }
           />
           <Route
-            path="/recive"
+            path="/recive-page"
             element={
               <PrivateRoute>
                 <RecivePage />
@@ -105,7 +105,7 @@ function App() {
             }
           />
           <Route
-            path="/send"
+            path="/send-page"
             element={
               <PrivateRoute>
                 <SendPage />
@@ -113,7 +113,7 @@ function App() {
             }
           />
           <Route
-            path="/transaction/:transactionId"
+            path="/transaction-page/:transactionId"
             element={
               <PrivateRoute>
                 <TransactionPage />
