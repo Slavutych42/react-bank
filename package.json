@@ -4,6 +4,12 @@
     "react-router-dom": "^6.21.2"
   },
   "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "@types/estree": "^1.0.5",
+    "@types/graceful-fs": "^4.1.9",
+    "@types/jest": "^29.5.11",
+    "@types/json-schema": "^7.0.15",
+    "@types/range-parser": "^1.2.7",
     "@types/react": "^18.2.47",
     "@types/react-router-dom": "^5.3.3"
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AuthContext, { authReducer, initialState } from './AuthContext'
 import AuthRoute from './AuthRoute';
@@ -16,7 +16,7 @@ import RecivePage from './container/recive-page/index';
 import SendPage from './container/send-page/index';
 import TransactionPage from './container/transaction-page/index';
 import ErrorPage from './container/error/index';
-import { useReducer } from "react";
+
 
 function App() {
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -120,7 +120,7 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="*" Component={Error} />
+          <Route path="*" Component={ErrorPage} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
