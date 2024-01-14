@@ -1,0 +1,77 @@
+.welcome-container {
+    text-align: center;
+    padding: 20px;
+    background-image: url("../../Rectangle.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100vh;
+
+  }
+  
+  .welcome-container h1 {
+    margin-bottom: 0.5em; /* або інший розмір відступу */
+    color: #fff;
+    font-size: 2.5rem; /* збільшити розмір шрифту */
+  }
+  
+  .welcome-container p {
+    color: #fff;
+    margin-bottom: 2em; /* збільшити відступ між текстом та зображенням */
+  }
+  
+  .welcome-container img {
+    position: absolute;
+    width: 500.536px;
+    height: 500.536px;
+    transform: rotate(-15deg);
+    z-index: -1;
+  }
+
+  .welcome-container button {
+    width: 100%; 
+    padding: 1em; 
+    margin-bottom: 0.5em;
+    border-radius: 2em;
+    border: none;
+    box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.11);
+    cursor: pointer;
+    transition: background-color 0.2s ease; 
+
+
+    display: flex;
+    padding: 20px 140px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 12px;
+}
+
+
+.welcome-container .sign-up-btn {
+    background-color: #775CE5;
+    color: #ffffff; 
+    margin-bottom: 1rem; 
+}
+
+
+.welcome-container .sign-in-btn {
+    background-color: #FFF;
+    color: #775CE5; 
+    border: 1px solid #FFF; 
+}
+
+
+.welcome-container button:hover {
+    background-color: #6C63FF; 
+    color: #FFF;
+}
+
+
+.welcome-container button:active {
+box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
