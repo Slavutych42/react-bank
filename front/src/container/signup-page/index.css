@@ -5,7 +5,7 @@
   }
   
   body, html {
-    min-height: 1000px;
+    min-height: 852px;
     height: 100%;
     font-family: 'Open Sans', sans-serif; 
   }
@@ -17,6 +17,7 @@
     align-items: center;
     height: 100%;
     gap: 20px;
+    position: relative;
   }
 
   .signup-title {
@@ -27,7 +28,7 @@
   
   .signup-container h2 {
     margin-bottom: 12px;
-    font-size: 1.5rem;
+    font-size: 24px;
     color: #1f1d1d;
     font-weight: 700;
   }
@@ -49,7 +50,7 @@
   }
   
   /* Стилізація кнопки "Continue" */
-  .signup-container button {
+  .cont-button {
     width: calc(100% - 2rem); /* Відніміть padding з обох сторін */
     padding: 1rem;
     margin-bottom: 1rem;
@@ -62,7 +63,7 @@
     transition: background-color 0.3s;
     }
     
-    .signup-container button:hover {
+    .cont-button:hover {
     background-color: #3700B3;
     }
     

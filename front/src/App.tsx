@@ -1,8 +1,8 @@
+import PrivateRoute from './PrivateRoute';
 import React, { useReducer } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AuthContext, { authReducer, initialState } from './AuthContext'
 import AuthRoute from './AuthRoute';
-import PrivateRoute from './PrivateRoute';
 import WellcomePage from './container/welcome-page/index';
 import SignupPage from './container/signup-page/index';
 import SignupConfirmPage from './container/signup-confirm-page/index';

@@ -1,0 +1,17 @@
+.back-button   {
+    position: absolute;
+    width: 24px;
+    background-color: #fff !important;
+    border: none;
+    cursor: pointer;
+    color: #fff !important;
+  }
+  
+
+.back-button:hover {
+opacity: 0.8;
+}
+
+.back-button:focus {
+outline: none; 
+}  
