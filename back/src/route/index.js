@@ -52,6 +52,10 @@ router.get('/signin-page', (req, res) => {
   res.status(200).json('Hello World')
 })
 
+router.post('/signin-page', (req, res) => {
+  res.status(200).json('Hello World')
+})
+
 router.get('/signup-page', (req, res) => {
   res.status(200).json('Hello World')
 })
