@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import  AuthContext  from '../../AuthContext'; 
+import  { useAuth }  from '../../AuthContext'; 
 import './index.css'
 import BackButton from '../../component/back-button';
 
@@ -8,7 +8,7 @@ const SignUpPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { dispatch } = useContext(AuthContext);
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,10 +23,10 @@ const SignUpPage = () => {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
-      if (data.success) {
+      if (response.ok) {
         console.log(data)
         // Збереження токена та інших даних користувача в контексті
-        dispatch({ type: 'LOGIN', payload: { token: data.token, user: { email } } });
+        login(data.token)
         // Перенаправлення на сторінку підтвердження
         navigate('/signup-confirm-page');
       } else {

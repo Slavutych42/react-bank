@@ -69,7 +69,7 @@ async function checkUserExists(email) {
 }
 
 async function createUser(email, password) {
-  const newUser = { id: Date.now().toString(), email, password };
+  const newUser = { id: Date.now(), email, password };
   return newUser; 
 }
 
@@ -95,8 +95,8 @@ router.post('/signup-page', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    res.status(200).json({ success: true, message: 'User registered successfully.', user: newUser, token });
-  } catch (error) {
+    res.status(200).json({ success: true, message: 'User registered successfully.', user: newUser, token});
+  } catch (e) {
     res.status(500).json({ success: false, message: 'Internal server error.' });
   }
 });

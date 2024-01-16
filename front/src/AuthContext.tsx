@@ -1,14 +1,14 @@
-import React, { createContext, useReducer, useContext } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Визначення інтерфейсу для стану аутентифікації
 interface AuthState {
-  token: string | null;
+  token: number | null;
   user: any; // Ви можете змінити тип 'any' на конкретніший тип даних користувача
 }
 
 // Визначення типів дій для useReducer
 type AuthAction =
-  | { type: 'LOGIN'; payload: { token: string; user: any } }
+  | { type: 'LOGIN'; payload: { token: number; user: any } }
   | { type: 'LOGOUT' };
 
 // Початковий стан для useReducer
@@ -35,12 +35,14 @@ export const authReducer = (state: AuthState, action: AuthAction): AuthState => 
 };
 
 // Створення контексту з початковим значенням
-const AuthContext = createContext<{
-  state: AuthState;
-  dispatch: React.Dispatch<AuthAction>;
+export const AuthContext = createContext<{
+  authToken: string | null;
+  login: (token: string) => void;
+  logout: () => void;
 }>({
-  state: initialState,
-  dispatch: () => null,
+  authToken: null,
+  login: () => {},
+  logout: () => {},
 });
 
 // Визначення інтерфейсу для пропсів AuthProvider
@@ -50,10 +52,27 @@ interface AuthProviderProps {
 
 // Компонент провайдера контексту
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+
+  const login = (token: string) => {
+    setAuthToken(token);
+    localStorage.setItem('authToken', token);
+  };
+
+  const logout = () => {
+    setAuthToken(null);
+    localStorage.removeItem('authToken');
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      setAuthToken(token);
+    }
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider value={{ authToken, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,13 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../../AuthContext';
+import { useAuth } from '../../AuthContext'; // Переконайтеся, що шлях до AuthContext правильний
 import './index.css';
 import BackButton from '../../component/back-button';
 
 const SignupConfirmPage = () => {
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
-  const { dispatch } = useContext(AuthContext);
+  const { login } = useAuth(); // Використання функції login з AuthContext
   const navigate = useNavigate();
 
   const handleConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +22,7 @@ const SignupConfirmPage = () => {
       });
       const data = await response.json();
       if (data.success) {
-        dispatch({ type: 'LOGIN', payload: { token: data.token, user: data.user } });
+        login(data.token); // Використання функції login для зберігання токена
         navigate('/balance-page');
       } else {
         setError(data.message);
@@ -35,10 +35,10 @@ const SignupConfirmPage = () => {
   return (
     <div className="signup-confirm-container">
       <form onSubmit={handleConfirm}>
-        <BackButton/>
+        <BackButton />
         <div className='signup-title'>
-            <h2>Confirm account</h2>
-            <p>Write the code you received</p>
+          <h2>Confirm account</h2>
+          <p>Write the code you received</p>
         </div>
         <label htmlFor="code">Code</label>
         <input
@@ -46,14 +46,15 @@ const SignupConfirmPage = () => {
           id="code"
           value={code}
           onChange={(e) => setCode(e.target.value)}
-required
-/>
-<button type="submit" className='btn'>Confirm</button>
-</form>
-{error && <p className="error">{error}</p>}
-</div>
-);
+          required
+        />
+        <button type="submit" className='btn'>Confirm</button>
+      </form>
+      {error && <p className="error">{error}</p>}
+    </div>
+  );
 };
 
 export default SignupConfirmPage;
+
 

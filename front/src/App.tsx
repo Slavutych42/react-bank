@@ -1,7 +1,7 @@
 import PrivateRoute from './PrivateRoute';
-import React, { useReducer } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import AuthContext, { authReducer, initialState } from './AuthContext'
+import AuthContext, { useAuth } from './AuthContext'
 import AuthRoute from './AuthRoute';
 import WellcomePage from './container/welcome-page/index';
 import SignupPage from './container/signup-page/index';
@@ -19,9 +19,9 @@ import ErrorPage from './container/error/index';
 
 
 function App() {
-  const [state, dispatch] = useReducer(authReducer, initialState);
+  const auth = useAuth()
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider value={auth}>
       <BrowserRouter>
         <Routes>
           <Route
