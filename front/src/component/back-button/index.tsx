@@ -5,7 +5,7 @@ const BackButton = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate(-1); // Повернутись на один крок назад у історії браузера
+    navigate(-1);
   };
 
   return (

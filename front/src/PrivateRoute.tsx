@@ -1,20 +1,17 @@
 import React, { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from './AuthContext'; // Переконайтеся, що шлях до AuthContext правильний
+import { useAuth } from './AuthContext'; 
 
 interface PrivateRouteProps {
   children: ReactNode;
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
-  const { authToken } = useAuth(); // Отримуємо поточний токен авторизації
-
-  if (!authToken) {
-    // Якщо токен відсутній, перенаправляємо на сторінку входу
+  const { login } = useAuth();
+  if (!login) {
+    console.log(login)
     return <Navigate to="/signin-page" replace />;
   }
-
-  // Якщо токен присутній, відображаємо передані дочірні компоненти
   return <>{children}</>;
 };
 

@@ -8,11 +8,11 @@ const WelcomePage = () => {
   const navigate = useNavigate();
 
   const handleSignUp = () => {
-    navigate('/signup-page'); // Шлях до сторінки реєстрації
+    navigate('/signup-page'); 
   };
 
   const handleSignIn = () => {
-    navigate('/signin-page'); // Шлях до сторінки входу
+    navigate('/signin-page'); 
   };
   return (
     <div className="welcome-container">

@@ -25,9 +25,7 @@ const SignUpPage = () => {
       const data = await response.json();
       if (response.ok) {
         console.log(data)
-        // Збереження токена та інших даних користувача в контексті
         login(data.token)
-        // Перенаправлення на сторінку підтвердження
         navigate('/signup-confirm-page');
       } else {
         setError(data.message);

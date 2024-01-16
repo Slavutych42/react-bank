@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../AuthContext'; // Переконайтеся, що шлях до AuthContext правильний
+import { useAuth } from '../../AuthContext';
 import './index.css';
 import BackButton from '../../component/back-button';
 
 const SignupConfirmPage = () => {
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
-  const { login } = useAuth(); // Використання функції login з AuthContext
+  const { login } = useAuth(); 
   const navigate = useNavigate();
 
   const handleConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +22,7 @@ const SignupConfirmPage = () => {
       });
       const data = await response.json();
       if (data.success) {
-        login(data.token); // Використання функції login для зберігання токена
+        login(data.token);
         navigate('/balance-page');
       } else {
         setError(data.message);

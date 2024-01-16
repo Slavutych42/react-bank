@@ -34,8 +34,8 @@ const SignInPage = () => {
       const data = await response.json();
 
       if (data.token) {
-        login(data.token); // Встановлення токена за допомогою функції login
-        navigate('/balance-page'); // Перехід на сторінку балансу
+        login(data.token);
+        navigate('/balance-page');
       } else {
         setError('Invalid email or password');
       }

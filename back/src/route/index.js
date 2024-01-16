@@ -4,7 +4,6 @@ const router = express.Router()
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-
 // Підключіть файли роутів
 // const test = require('./test')
 // Підключіть інші файли роутів, якщо є
@@ -87,16 +86,16 @@ router.post('/signup-page', async (req, res) => {
     }
 
     const newUser = await createUser(email, password);
-    // Припускаємо, що createUser повертає об'єкт користувача з id
 
     const token = jwt.sign(
       { userId: newUser.id },
-      process.env.JWT_SECRET_KEY, // Використання змінної середовища для секрету
+      process.env.JWT_SECRET_KEY,
       { expiresIn: '1h' }
     );
 
     res.status(200).json({ success: true, message: 'User registered successfully.', user: newUser, token});
   } catch (e) {
+    console.error(e)
     res.status(500).json({ success: false, message: 'Internal server error.' });
   }
 });
@@ -116,5 +115,5 @@ router.get('/transaction-page', (req, res) => {
 router.get('/welcome-page', (req, res) => {
   res.status(200).json('Hello World')
 })
-// Експортуємо глобальний роутер
+
 module.exports = router
