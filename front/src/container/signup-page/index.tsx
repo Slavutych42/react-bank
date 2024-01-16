@@ -66,7 +66,7 @@ const SignUpPage = () => {
         /><p className='link-p'>
         Already have an account? <span className='link-a' onClick={() => navigate('/signin-page')}>Sign In</span>
       </p>
-        <button className='cont-button' type="submit" onClick={() => navigate('/signup-confirm-page')}>Continue</button>
+        <button className='cont-button' type="submit">Continue</button>
       </form>
       {error && <p className="error">{error}</p>}
       

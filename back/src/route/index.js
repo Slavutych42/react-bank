@@ -2,6 +2,8 @@
 const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 
 // Підключіть файли роутів
 // const test = require('./test')
@@ -60,49 +62,43 @@ router.get('/signup-page', (req, res) => {
   res.status(200).json('Hello World')
 })
 
+async function checkUserExists(email) {
+  const users = [{ email: 'existing@example.com', id: '1' }]; 
+  const user = users.find(user => user.email === email);
+  return user;
+}
+
+async function createUser(email, password) {
+  const newUser = { id: Date.now().toString(), email, password };
+  return newUser; 
+}
+
 router.post('/signup-page', async (req, res) => {
   const { email, password } = req.body;
 
-  // Перевірка, чи дані не пусті
   if (!email || !password) {
     return res.status(400).json({ success: false, message: 'Email and password are required.' });
   }
 
   try {
-    // Перевірка, чи користувач з таким email вже існує
     const userExists = await checkUserExists(email);
     if (userExists) {
       return res.status(400).json({ success: false, message: 'User with this email already exists.' });
     }
 
-    const user = { email }; // Об'єкт користувача
-  const token = jwt.sign(user, 'secret_key'); // Використовуйте секретний ключ
-
-  res.status(200).json({ success: true, token });
-
-    // Створення нового користувача
     const newUser = await createUser(email, password);
-    // Припускаємо, що createUser повертає об'єкт користувача
+    // Припускаємо, що createUser повертає об'єкт користувача з id
 
-    // Повертаємо успіх
-    res.status(200).json({ success: true, message: 'User registered successfully.', user: newUser });
+    const token = jwt.sign(
+      { userId: newUser.id },
+      process.env.JWT_SECRET_KEY, // Використання змінної середовища для секрету
+      { expiresIn: '1h' }
+    );
+
+    res.status(200).json({ success: true, message: 'User registered successfully.', user: newUser, token });
   } catch (error) {
-    // Повертаємо помилку сервера
     res.status(500).json({ success: false, message: 'Internal server error.' });
   }
-  
-  async function checkUserExists(email) {
-  // Симуляція перевірки в базі даних
-  const users = [{ email: 'existing@example.com' }]; // Тимчасовий список користувачів
-  return users.some(user => user.email === email);
-}
-
-// Тимчасова функція для створення користувача (зазвичай це б вимагало запиту до бази даних)
-async function createUser(email, password) {
-  // Симуляція створення користувача в базі даних
-  const newUser = { email, password }; // У реальній базі даних пароль має бути захешований!
-  return newUser; // Повертаємо нового користувача
-}
 });
 
 router.get('/signup-confirm-page', (req, res) => {
