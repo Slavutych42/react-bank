@@ -72,6 +72,8 @@ async function createUser(email, password) {
   return newUser; 
 }
 
+const users = {};
+
 router.post('/signup-page', async (req, res) => {
   const { email, password } = req.body;
 
@@ -92,19 +94,49 @@ router.post('/signup-page', async (req, res) => {
       process.env.JWT_SECRET_KEY,
       { expiresIn: '1h' }
     );
+    const confirmationCode = Math.floor(1000 + Math.random() * 9000).toString();
+    users[email] = { ...newUser, confirmationCode };
 
-    res.status(200).json({ success: true, message: 'User registered successfully.', user: newUser, token});
+    // Відправляємо лише один об'єкт з усією необхідною інформацією
+    res.status(200).json({ 
+      success: true, 
+      message: 'User registered successfully, please confirm your email', 
+      user: newUser, 
+      token, 
+      confirmationCode 
+    });
   } catch (e) {
-    console.error(e)
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    console.error(e);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
   }
 });
 
-router.get('/signup-confirm-page', (req, res) => {
-  res.status(200).json('Hello World')
-})
 
 router.post('/signup-confirm-page', (req, res) => {
+  const { email, confirmationCode } = req.body;
+  console.log('Email:', email, 'Confirmation Code:', confirmationCode);
+  // Перевірка чи введені email та confirmationCode
+  if (!email || !confirmationCode) {
+    return res.status(400).json({ success: false, message: 'Email and confirmation code are required.' });
+  }
+
+  const user = users[email];
+  // Перевірка чи користувач існує та чи введений код збігається з згенерованим
+  if (user && user.confirmationCode === confirmationCode) {
+    // Тут можна додати дії, які активують користувача в системі, наприклад, оновлення статусу в базі даних
+
+    // Відправка відповіді про успішне підтвердження
+    res.json({ success: true, message: 'User confirmed', redirect: '/balance-page' });
+  } else {
+    // Якщо код невірний, відправка відповіді з помилкою
+    res.status(400).json({ success: false, message: 'Invalid confirmation code' });
+  }
+});
+
+
+router.get('/signup-confirm-page', (req, res) => {
   res.status(200).json('Hello World')
 })
 

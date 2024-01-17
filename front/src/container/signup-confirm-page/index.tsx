@@ -7,6 +7,7 @@ import BackButton from '../../component/back-button';
 const SignupConfirmPage = () => {
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
+  const [userEmail, setUserEmail] = useState(''); // Стан для зберігання електронної адреси
   const { login } = useAuth(); 
   const navigate = useNavigate();
 
@@ -18,7 +19,7 @@ const SignupConfirmPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ email: userEmail, confirmationCode: code }),
       });
       const data = await response.json();
       if (data.success) {
@@ -40,6 +41,14 @@ const SignupConfirmPage = () => {
           <h2>Confirm account</h2>
           <p>Write the code you received</p>
         </div>
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          value={userEmail}
+          onChange={(e) => setUserEmail(e.target.value)}
+          required
+        />
         <label htmlFor="code">Code</label>
         <input
           type="text"
@@ -56,5 +65,6 @@ const SignupConfirmPage = () => {
 };
 
 export default SignupConfirmPage;
+
 
 
