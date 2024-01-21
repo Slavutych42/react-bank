@@ -27,7 +27,7 @@ const SignUpPage = () => {
 
       const data = await response.json();
       console.log('Response data:', data);
-      console.log(data.user.token)
+      console.log('signup-page', data.user.token)
       if (data.user.token) {
         // Передача токена та даних користувача у функцію login
         login(data.user.token, { id: data.user.id, email: data.user.email });

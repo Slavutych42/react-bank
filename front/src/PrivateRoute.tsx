@@ -8,8 +8,8 @@ interface PrivateRouteProps {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const { token } = useAuth();
+  console.log('PrivateRoute:', token)
   if (!token) {
-    
     return <Navigate to="/signin-page" replace />;
   }
   return <>{children}</>;

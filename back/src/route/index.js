@@ -12,7 +12,6 @@ require('dotenv').config();
 // router.use('/', test)
 // Використовуйте інші файли роутів, якщо є
 const users = {};
- // Замініть 'your_secret_key_here' на свій секретний ключ
 
 function createUser(email, password) {
   const JWT_SECRET_KEY = 'your_secret_key_here';
@@ -46,7 +45,7 @@ router.post('/signup-page', async (req, res) => {
             return res.status(400).json({ success: false, message: 'User with this email already exists.' });
         }
 
-        const newUser = createUser(email, password);
+        const newUser = createUser(email, password, token);
 
 
         res.status(200).json({

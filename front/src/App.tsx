@@ -19,9 +19,10 @@ import ErrorPage from './container/error/index';
 
 
 function App() {
-  const auth = useAuth()
+  const data = useAuth()
+  console.log('App:', data.token)
   return (
-    <AuthContext.Provider value={auth}>
+    <AuthContext.Provider value={data}>
       <BrowserRouter>
         <Routes>
           <Route

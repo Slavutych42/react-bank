@@ -32,14 +32,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = useCallback((token: string, newUser: User) => {
     setToken(token);
     setUser(newUser);
-    localStorage.setItem('Token', token);
+    localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(newUser));
   }, []);
 
   const logout = useCallback(() => {
     setToken('');
     setUser(null);
-    localStorage.removeItem('Token');
+    localStorage.removeItem('token');
     localStorage.removeItem('user');
   }, []);
 
@@ -98,7 +98,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
+    console.log(storedToken)
     const storedUser = localStorage.getItem('user');
+    console.log(storedUser)
     console.log('Loaded token:', token);
     console.log('Loaded user:', storedUser);
     if (storedToken && storedUser) {
