@@ -1,71 +1,114 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
 
-interface AuthState {
-  token: string | '';
-  user: any; 
+interface User {
+  id: string;
+  email: string;
 }
 
-type AuthAction =
-  | { type: 'LOGIN'; payload: { token: string; user: any } }
-  | { type: 'LOGOUT' };
-
-export const initialState: AuthState = { token: '', user: null };
-
-export const authReducer = (state: AuthState, action: AuthAction): AuthState => {
-  switch (action.type) {
-    case 'LOGIN':
-      return {
-        ...state,
-        token: action.payload.token,
-        user: action.payload.user,
-      };
-    case 'LOGOUT':
-      return {
-        ...state,
-        token: '',
-        user: null,
-      };
-    default:
-      return state;
-  }
-};
-
-export const AuthContext = createContext<{
-  authToken: string | '';
-  login: (token: string) => void;
+interface AuthContextType {
+  token: string;
+  login: (token: string, user: User) => void;
   logout: () => void;
-}>({
-  authToken: '',
+  updateEmail: (newEmail: string) => Promise<void>;
+  updatePassword: (oldPassword: string, newPassword: string) => Promise<void>;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+}
+
+export const AuthContext = createContext<AuthContextType>({
+  user: null,
+  setUser: () => {},
+  token: '',
   login: () => {},
   logout: () => {},
+  updateEmail: async () => {},
+  updatePassword: async () => {},
 });
 
-interface AuthProviderProps {
-  children: React.ReactNode;
-}
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [token, setToken] = useState<string>('');
+  const [user, setUser] = useState<User | null>(null);
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [authToken, setAuthToken] = useState<string | ''>('');
+  const login = useCallback((token: string, newUser: User) => {
+    setToken(token);
+    setUser(newUser);
+    localStorage.setItem('Token', token);
+    localStorage.setItem('user', JSON.stringify(newUser));
+  }, []);
 
-  const login = (token: string) => {
-    setAuthToken(token);
-    localStorage.setItem('authToken', token);
+  const logout = useCallback(() => {
+    setToken('');
+    setUser(null);
+    localStorage.removeItem('Token');
+    localStorage.removeItem('user');
+  }, []);
+
+  const updateEmail = async (newEmail: string) => {
+    console.log('Updating email with token:', token);
+    try {
+      const response = await fetch('/change-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ email: newEmail })
+      });
+  
+      const data = await response.json();
+      if (!response.ok) {
+        console.error('Email update failed:', data.message);
+        throw new Error(data.message || 'Email update failed');
+      }
+  
+      setUser(prev => {
+        if (prev) {
+          return { ...prev, email: newEmail };
+        }
+        return null;
+      });
+    } catch (error) {
+      console.error('Failed to update email:', error);
+    }
   };
 
-  const logout = () => {
-    setAuthToken('');
-    localStorage.removeItem('authToken');
+  const updatePassword = async (oldPassword: string, newPassword: string) => {
+    console.log('Updating password with token:', token);
+    try {
+      const response = await fetch('/change-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ oldPassword, newPassword })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        console.error('Password update failed:', data.message);
+        throw new Error(data.message || 'Password update failed');
+      }
+
+      // Не зберігайте новий пароль в локальному стані або localStorage
+    } catch (error) {
+      console.error('Failed to update password:', error);
+    }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      setAuthToken(token);
+    const storedToken = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+    console.log('Loaded token:', token);
+    console.log('Loaded user:', storedUser);
+    if (storedToken && storedUser) {
+      setToken(storedToken);
+      setUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, [token]);
 
   return (
-    <AuthContext.Provider value={{ authToken, login, logout }}>
+    <AuthContext.Provider value={{ token, login, logout, updateEmail, updatePassword, user, setUser }}>
       {children}
     </AuthContext.Provider>
   );
@@ -74,4 +117,3 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 export const useAuth = () => useContext(AuthContext);
 
 export default AuthContext;
-

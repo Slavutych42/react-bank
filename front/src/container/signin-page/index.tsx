@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../AuthContext'; // Перевірте шлях до AuthContext
-import './index.css'; // Перевірте шлях до вашого CSS файлу
+import { useAuth } from '../../AuthContext';
+import './index.css';
+import BackButton from '../../component/back-button';
 
 const SignInPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { login } = useAuth(); // Використання функції login з AuthContext
+  const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userCredentials = localStorage.getItem('userCredentials');
+    if (userCredentials) {
+      const { token, user } = JSON.parse(userCredentials);
+      login(token, user);
+    }
+  }, [login, navigate]);
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Додайте сюди логіку валідації пароля
+
+    // Додайте тут валідацію пароля, якщо потрібно
     if (password.length < 6) {
       setError('Sorry, the password is too simple');
       return;
@@ -27,21 +37,16 @@ const SignInPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      if (!response.ok) {
-        throw new Error('Login failed'); // Або використовуйте error message від сервера
-      }
-
       const data = await response.json();
-
-      if (data.token) {
-        login(data.token);
-        navigate('/balance-page');
-      } else {
-        setError('Invalid email or password');
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
       }
+
+      login(data.token, data.user);
+      navigate('/balance-page');
     } catch (err) {
-      if(err instanceof Error && err.message) {
-        setError(err.message)
+      if (err instanceof Error && err.message) {
+        setError(err.message);
       } else {
         setError('An error occurred. Please try again.');
       }
@@ -51,7 +56,8 @@ const SignInPage = () => {
   return (
     <div className="signin-container">
       <form onSubmit={handleSignIn} className="signin-form">
-        <div>
+        <BackButton/>
+        <div className='title-div'>
           <h2>Sign in</h2>
           <p>Select login method</p>
         </div>
@@ -86,5 +92,6 @@ const SignInPage = () => {
 };
 
 export default SignInPage;
+
 
 

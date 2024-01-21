@@ -1,16 +1,16 @@
-
-.signin-container {
+ .title-div {
     display: flex;
+    gap: 12px;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: #FFFFFF;
   }
   
   .signin-form {
-    width: 90%;
-    max-width: 400px;
+    width: 393px;
+    height: 852px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
   
   .signin-form h2 {
@@ -35,8 +35,7 @@
   
   .signin-form input {
   width: 100%;
-  padding: 15px;
-  margin-bottom: 16px;
+  padding: 15px;;
   border: 1px solid #C4C4C4;
   box-sizing: border-box;
   border-radius: 8px;

@@ -16,16 +16,16 @@ const WelcomePage = () => {
   };
   return (
     <div className="welcome-container">
-      <div>
-          <h1>Hello!</h1>
-          <p>Welcome to bank app</p>
+      <div className='title-div'>
+        <h1>Hello!</h1>
+        <p>Welcome to bank app</p>
       </div>
       <img src={safeImage} alt="Bank Safe" className="bank-safe-image" />
-      <div>
-        <button className="sign-up-btn" onClick={() => {handleSignUp()}}>Sign Up</button>
+      <div className='btn-div'>
+      <button className="sign-up-btn" onClick={() => {handleSignUp()}}>Sign Up</button>
       <button className="sign-in-btn" onClick={() => {handleSignIn()}}>Sign In</button>
       </div>
-</div>
+    </div>
 );
 };
 

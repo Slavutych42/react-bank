@@ -1,15 +1,3 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body, html {
-    min-height: 852px;
-    height: 100%;
-    font-family: 'Open Sans', sans-serif; 
-  }
-  
   .signup-container {
     display: flex;
     flex-direction: column;

@@ -1,19 +1,18 @@
 .signup-confirm-container {
-  display: flex;
+    display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    height: 100%;
+    align-items: flex-start;
     gap: 20px;
-    position: relative; /* або фон, який ви використовуєте для всього додатку */
+    position: relative;
 }
 
 .signup-confirm-container form {
   display: flex;
   flex-direction: column;
-  width: 100%; /* Або максимальна ширина, якщо потрібно */
-  max-width: 400px; /* Залежить від вашого дизайну */
   padding: 20px;
+  width: 393px;
+  height: 852px;
 }
 
 .signup-confirm-container h2 {
